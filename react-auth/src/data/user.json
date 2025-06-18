@@ -1,0 +1,162 @@
+[
+    {
+        "id": 1,
+        "name": "Alice Johnson",
+        "email": "alice@example.com",
+        "username": "alicej",
+        "password": "password123",
+        "role": "user"
+    },
+    {
+        "id": 2,
+        "name": "Bob Smith",
+        "email": "bob@mail.com",
+        "username": "bobsmith",
+        "password": "abc123",
+        "role": "admin"
+    },
+    {
+        "id": 3,
+        "name": "Charlie Brown",
+        "email": "charlie@example.com",
+        "username": "charlieb",
+        "password": "qwerty123",
+        "role": "user"
+    },
+    {
+        "id": 4,
+        "name": "Diana Prince",
+        "email": "diana@example.com",
+        "username": "wonderwoman",
+        "password": "pass456",
+        "role": "admin"
+    },
+    {
+        "id": 5,
+        "name": "Ethan Hunt",
+        "email": "ethan@example.com",
+        "username": "ethanhunt",
+        "password": "mission123",
+        "role": "user"
+    },
+    {
+        "id": 6,
+        "name": "Fiona Gallagher",
+        "email": "fiona@example.com",
+        "username": "fionag",
+        "password": "abc123",
+        "role": "user"
+    },
+    {
+        "id": 7,
+        "name": "George Michael",
+        "email": "george@example.com",
+        "username": "georgem",
+        "password": "letmein",
+        "role": "user"
+    },
+    {
+        "id": 8,
+        "name": "Hannah Baker",
+        "email": "hannah@example.com",
+        "username": "hannahb",
+        "password": "hannah123",
+        "role": "user"
+    },
+    {
+        "id": 9,
+        "name": "Ian Malcolm",
+        "email": "ian@example.com",
+        "username": "ianm",
+        "password": "chaos123",
+        "role": "admin"
+    },
+    {
+        "id": 10,
+        "name": "Jane Eyre",
+        "email": "jane@example.com",
+        "username": "janee",
+        "password": "bronte456",
+        "role": "user"
+    },
+    {
+        "id": 11,
+        "name": "Kevin Hart",
+        "email": "kevin@example.com",
+        "username": "kevinh",
+        "password": "funnyguy",
+        "role": "user"
+    },
+    {
+        "id": 12,
+        "name": "Laura Palmer",
+        "email": "laura@example.com",
+        "username": "laurap",
+        "password": "secret123",
+        "role": "admin"
+    },
+    {
+        "id": 13,
+        "name": "Mike Ross",
+        "email": "mike@example.com",
+        "username": "miker",
+        "password": "lawyer456",
+        "role": "user"
+    },
+    {
+        "id": 14,
+        "name": "Nancy Drew",
+        "email": "nancy@example.com",
+        "username": "nancyd",
+        "password": "detective",
+        "role": "user"
+    },
+    {
+        "id": 15,
+        "name": "Oscar Wilde",
+        "email": "oscar@example.com",
+        "username": "oscarw",
+        "password": "wildepass",
+        "role": "user"
+    },
+    {
+        "id": 16,
+        "name": "Pam Beesly",
+        "email": "pam@example.com",
+        "username": "pambeesly",
+        "password": "art123",
+        "role": "user"
+    },
+    {
+        "id": 17,
+        "name": "Quentin Tarantino",
+        "email": "quentin@example.com",
+        "username": "quentint",
+        "password": "movies321",
+        "role": "admin"
+    },
+    {
+        "id": 18,
+        "name": "Rachel Green",
+        "email": "rachel@example.com",
+        "username": "rachelg",
+        "password": "fashion456",
+        "role": "user"
+    },
+    {
+        "id": 19,
+        "name": "Steve Rogers",
+        "email": "steve@example.com",
+        "username": "cap",
+        "password": "america123",
+        "role": "admin"
+    },
+    {
+        "id": 20,
+        "name": "Tony Stark",
+        "email": "tony@example.com",
+        "username": "ironman",
+        "password": "jarvis",
+        "role": "admin"
+    }
+]
