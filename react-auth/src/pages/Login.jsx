@@ -1,60 +1,107 @@
 import { useState } from "react"
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { setCredentials } from "../store/authSlice";
-import users from '../data/user.json'
+import { loginUser, signupUser } from "../store/authSlice";
+import toast from "react-hot-toast";
+
+const initialState = {
+  email: '',
+  password: '',
+  displayName: ''
+}
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
+  const [formData, setFormData] = useState(initialState);
+  const [isLogin, setIsLogin] = useState(true);
 
   const submit = (e) => {
     e.preventDefault();
-    const user = users.find(i => i.email == email && i.password == password);
-    if (user) {
-      const token = `${user.email}-token-${Date.now()}`;
-      localStorage.setItem('user', JSON.stringify(user))
-      dispatch(setCredentials({ user, token }))
-      navigate('/profile')
-    } else {
-      console.log('user>>not found', user)
-    }
+    isLogin ? login() : signup();
+  }
+
+  const login = () => {
+    dispatch(loginUser(formData)).then((response) => {
+      if (response?.payload?.success) {
+        toast.success(response.payload.message);
+        navigate('profile');
+      } else {
+        response?.payload?.message && showToastError(response.payload.message);
+      }
+    });
+  }
+
+
+  const signup = () => {
+    dispatch(signupUser(formData)).then((response) => {
+      if (response?.payload?.success) {
+        toast.success(response.payload.message);
+        navigate('profile');
+      } else {
+        response?.payload?.message && showToastError(response.payload.message);
+      }
+    });
+  }
+
+  const showToastError = (message) => {
+    toast.error(message);
+  }
+
+  const changeHandler = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  }
+
+  const toggleForm = () => {
+    console.log("Toggling form");
+    setIsLogin(!isLogin);
+    setFormData(initialState);
   }
 
   return (
-    <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
-      <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-        <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Sign in to your account</h2>
+    <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">{isLogin ? "Log in" : "Sign up"}</h2>
       </div>
 
-      <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form class="space-y-6">
-          <div>
-            <label for="email" class="block text-sm/6 font-medium text-gray-900">Email address</label>
-            <div class="mt-2">
-              <input type="email" name="email" id="email" autocomplete="email" onChange={(e) => setEmail(e.target.value)} required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
-            </div>
-          </div>
-
-          <div>
-            <div class="flex items-center justify-between">
-              <label for="password" class="block text-sm/6 font-medium text-gray-900">Password</label>
-              <div class="text-sm">
+      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <form className="space-y-6">
+          {!isLogin && (
+            <div>
+              <label htmlFor="displayName" className="block text-sm/6 font-medium text-gray-900">Display Name</label>
+              <div className="mt-2">
+                <input type="text" name="displayName" id="displayName" onChange={(e) => changeHandler(e)} required className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
               </div>
             </div>
-            <div class="mt-2">
-              <input type="password" name="password" id="password" autocomplete="current-password" onChange={(e) => setPassword(e.target.value)} required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+          )}
+          <div>
+            <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">Email address</label>
+            <div className="mt-2">
+              <input type="email" name="email" id="email" onChange={(e) => changeHandler(e)} required className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
             </div>
           </div>
 
           <div>
-            <button type="submit" onClick={(e) => submit(e)} class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign in</button>
+            <div className="flex items-center justify-between">
+              <label htmlFor="password" className="block text-sm/6 font-medium text-gray-900">Password</label>
+              <div className="text-sm">
+              </div>
+            </div>
+            <div className="mt-2">
+              <input type="password" name="password" id="password" onChange={(e) => changeHandler(e)} required className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+            </div>
+          </div>
+
+          <div>
+            <button type="submit" onClick={(e) => submit(e)} className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">{isLogin ? "Log in" : "Sign up"}</button>
           </div>
         </form>
+
+        <button onClick={toggleForm} className="mt-6 w-full text-center text-sm/6 font-semibold text-indigo-600 hover:text-indigo-500 cursor-pointer">
+          {isLogin ? "Don't have an account? Sign up" : "Already have an account? Log in"}
+        </button>
 
 
       </div>

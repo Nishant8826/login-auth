@@ -5,11 +5,10 @@ import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
     const dispatch = useDispatch();
+    const { user } = useSelector((state) => state.auth);
     const navigate = useNavigate();
-    const user = JSON.parse(localStorage.getItem('user'));
 
     const doLogout = () => {
-        localStorage.removeItem('user');
         dispatch(logout());
         navigate('/')
     }
@@ -22,7 +21,7 @@ const Profile = () => {
                 <div className="space-y-4">
                     <div className="flex justify-between items-center">
                         <span className="text-gray-500 font-medium">Name:</span>
-                        <span className="text-gray-900">{user?.name}</span>
+                        <span className="text-gray-900">{user?.displayName}</span>
                     </div>
 
                     <div className="flex justify-between items-center">
