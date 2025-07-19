@@ -6,11 +6,15 @@ import { useNavigate } from 'react-router-dom';
 const Profile = () => {
     const dispatch = useDispatch();
     const { user } = useSelector((state) => state.auth);
+
     const navigate = useNavigate();
 
     const doLogout = () => {
-        dispatch(logout());
-        navigate('/')
+        dispatch(logout()).then((response) => {
+            if (response?.payload?.success) {
+                navigate('/');
+            }
+        });
     }
 
     return (

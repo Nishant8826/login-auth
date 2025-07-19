@@ -31,11 +31,16 @@ const login = TryCatch(async (req, res, next) => {
     const isPasswordMatch = await bcrypt.compare(password, user.password);
     if (!isPasswordMatch) return next(new ErrorHandler(200, "Invalid credentials"));
 
-    const token = await jwt.sign(req.body, 'restart restart', { expiresIn: 60 * 60 * 24 })
+    const token = await jwt.sign(user.toObject(), 'restart restart', { expiresIn: 60 * 60 * 24 })
     if (!token) return next(new ErrorHandler(200, "Token generation failed"));
     user.password = undefined;
     res.cookie("token", token, { httpOnly: true, secure: false }).status(201).json({ success: true, user, token, message: "Logged in successfully" });
 });
 
+const logout = TryCatch(async (req, res, next) => {
+    res.clearCookie("token");
+    return res.status(200).json({ success: true, message: "Logged out successfully" });
+})
 
-module.exports = { signup, login };
+
+module.exports = { signup, login, logout };

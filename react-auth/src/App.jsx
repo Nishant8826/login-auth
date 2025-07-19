@@ -10,17 +10,14 @@ function App() {
   const { isAuthenticated } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
-
   useEffect(() => {
-    // Check authentication status on app load
     dispatch(checkAuth());
   }, [dispatch]);
 
   return (
     <Router>
       <Routes>
-        <Route path='/' element={<Login />} />
-
+        <Route path='/' element={isAuthenticated ? <Navigate to={'/profile'} /> : <Login />} />
 
         <Route path='/profile' element={<ProtectedRoute isAuthenticated={isAuthenticated}><Profile /></ProtectedRoute>} />
 

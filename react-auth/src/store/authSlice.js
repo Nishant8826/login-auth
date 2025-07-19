@@ -31,18 +31,28 @@ export const loginUser = createAsyncThunk('user/login', async (userData) => {
 
 export const checkAuth = createAsyncThunk('user/check-auth', async () => {
     try {
-        const response = await axios.get(`${baseUrl}user/check-auth`, { withCredentials: true,headers: { 'Cache-Control': 'no-cache,no-store,must-revalidate,proxy-revalidate' } });
+        const response = await axios.get(`${baseUrl}user/check-auth`, { withCredentials: true, });
         return response.data;
     } catch (error) {
         return error.response?.data;
     }
 });
 
+export const logout = createAsyncThunk('user/logout', async () => {
+    try {
+        const response = await axios.post(`${baseUrl}user/logout`, {}, { withCredentials: true });
+        return response.data;
+    } catch (error) {
+        return error.response?.data;
+    }
+});
 
 const authSlice = createSlice({
     name: 'auth',
     initialState,
-    reducers: {},
+    reducers: {
+        setUser: (state, action) => { }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(signupUser.pending, (state) => {
@@ -73,8 +83,27 @@ const authSlice = createSlice({
                 state.isLoading = false;
                 state.error = action.payload.message;
             })
+            .addCase(checkAuth.pending, (state) => {
+                state.isAuthenticated = false;
+                state.isLoading = true;
+            })
+            .addCase(checkAuth.fulfilled, (state, action) => {
+                state.isAuthenticated = action.payload.success;
+                state.user = action.payload.user;
+                state.isLoading = false;
+            })
+            .addCase(checkAuth.rejected, (state, action) => {
+                state.isAuthenticated = false;
+                state.isLoading = false;
+                state.error = action.payload.message;
+            })
+            .addCase(logout.fulfilled, (state) => {
+                state.isAuthenticated = false;
+                state.isLoading = false;
+                state.user = null;
+            })
     }
 })
 
-export const { setCredentials, logout } = authSlice.actions;
+export const { setUser } = authSlice.actions;
 export default authSlice.reducer;
