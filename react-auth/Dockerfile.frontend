@@ -1,0 +1,11 @@
+FROM node:20
+
+WORKDIR /app
+
+COPY react-auth/package*.json ./
+
+RUN npm install
+
+COPY react-auth/ .
+
+CMD [ "npm","start" ]

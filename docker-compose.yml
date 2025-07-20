@@ -1,0 +1,57 @@
+version: '3'
+services:
+
+  frontend:
+    build: 
+      context: .
+      dockerfile: react-auth/Dockerfile.frontend
+    volumes:
+      - ./react-auth:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    develop:
+      watch:
+        - path: ./react-auth/package.json
+          action: rebuild
+        - path: ./react-auth/package-lock.json
+          action: rebuild
+        - path: ./react-auth
+          target: /app
+          action: sync
+    
+
+  backend:
+    build: 
+      context: .
+      dockerfile: server/Dockerfile.backend
+    volumes:
+      - ./server:/app
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGO_URI=mongodb://db:27017/mern
+    depends_on:
+      - db
+    develop:
+      watch:
+        - path: ./server/package.json
+          action: rebuild
+        - path: ./server/package-lock.json
+          action: rebuild
+        - path: ./server
+          target: /app
+          action: sync
+
+
+
+  db:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mern_db:/data/db
+
+volumes:
+  mern_db:
